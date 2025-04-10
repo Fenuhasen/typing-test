@@ -5,7 +5,7 @@
  * 
  * Sur ce... Amusez-vous bien ! 
  */
-let startTime = null, previousEndTime = null;
+/*let startTime = null, previousEndTime = null;
 let currentWordIndex = 0;
 const wordsToType = [];
 
@@ -130,3 +130,146 @@ modeSelect.addEventListener("change", () => startTest());
 
 // Start the test
 startTest();
+*/
+
+const time = document.getElementById("time")
+const textToType = document.getElementById("para")
+const word = document.querySelector(".word")
+const previous = document.querySelector("#previous")
+const now = document.querySelector("#now")
+const next = document.querySelector("#next")
+const result = document.querySelector(".result")
+previous.style.color = "white"
+now.style.color = "chocolate"
+next.style.color = "#3b3b3b"
+
+let wordList = ["apple", "banana", "grape", "orange", "cherry"]
+
+let newWord = ""
+let score = 0
+let scoreFinal
+let scoreList = []
+let error = 0
+let accuracy
+
+time.style.color = "chocolate"
+
+function generateText(numberOfWord){
+    
+    const span  = " "
+    for(let i = 0; i<numberOfWord;i++){
+        newWord+= wordList[getRandomNumber()] + ` ` 
+    }
+    newWord+= wordList[getRandomNumber()]
+}
+
+generateText(50)
+function getRandomNumber(){
+    let randomNumber = Math.random()*100
+    return randomNumber.toFixed(0)%5
+}
+
+let timerInitial = 31
+let timer = 31
+let index = 0
+previous.textContent = newWord.slice(0,index)
+now.textContent = newWord.slice(index,index+1)
+next.textContent = newWord.slice(index+1,newWord.length+1)
+
+function updateLetter(){
+    index++
+    score++
+    previous.textContent = newWord.slice(0,index)
+    now.textContent = newWord.slice(index,index+1)
+        next.textContent = newWord.slice(index+1,newWord.length+1)
+    
+}
+document.addEventListener("keydown", function(event){
+    if(timer==timerInitial){
+        compteARebour()
+    }
+    if(event.key == newWord[index] || newWord[index]=="_" && event.key == " "){
+        updateLetter()
+        now.style.color = "chocolate"
+    }else{
+        now.style.color = "red"
+        if(error<score){error++} 
+    }
+})
+
+
+const wpm = document.getElementById("wpm")
+const accuracyInHTML = document.getElementById("accuracy")
+
+
+
+
+/*setInterval(() => {
+    timer--
+    time.textContent = timer
+    }, 1000);
+    */
+   
+function compteARebour(){
+    timer--
+    time.textContent = timer
+    if(timer>0){
+        setTimeout(() => {
+            if(timer%5==1){scoreList.push(score)} 
+            compteARebour()
+        }, 1000);
+    }else{
+        next.style.color = "transparent" 
+        /*
+        Ici, on va mettre ce qui se passe quand le compte à rebour est fini.
+        */
+       result.style.visibility = "visible"
+       scoreFinal = score/5*(60/timerInitial)
+       accuracy = (score-error)*100/score
+       wpm.textContent= scoreFinal.toFixed(2)
+       accuracyInHTML.textContent= accuracy.toFixed(2)
+       bar1Score = scoreList[0]*(60/5)
+       bar2Score = scoreList[1]*(60/5) - scoreList[0]*(60/5)
+       bar3Score = scoreList[2]*(60/5) - scoreList[1]*(60/5)
+       bar4Score = scoreList[3]*(60/5) - scoreList[2]*(60/5)
+       bar5Score = scoreList[4]*(60/5) - scoreList[3]*(60/5)
+       bar6Score = scoreList[5]*(60/5) - scoreList[4]*(60/5)
+       bar1.style.height = `${bar1Score}px`
+       bar2.style.height = `${bar2Score}px`
+       bar3.style.height = `${bar3Score}px`
+       bar4.style.height = `${bar4Score}px`
+       bar5.style.height = `${bar5Score}px`
+       bar6.style.height = `${bar6Score}px`
+        
+    }
+}
+
+
+
+let text = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, ratione. Dolores cum odio consectetur quo tempora amet, laboriosam illum inventore, id iusto, officia debitis animi! Itaque fugiat eos aperiam alias."
+let i = 0
+function typeText(text, where){
+    where.textContent += text[i]
+    if(i<text.length-1){
+        setTimeout(() => {
+            i++
+            typeText(text, where)
+        }, 20);
+    }
+}
+
+const exit = document.querySelector(".exit")
+
+exit.addEventListener("click", function(){
+    result.style.visibility = "hidden"
+    location.reload()
+})
+
+
+const bar1 = document.querySelector(".bar1")
+const bar2 = document.querySelector(".bar2")
+const bar3 = document.querySelector(".bar3")
+const bar4 = document.querySelector(".bar4")
+const bar5 = document.querySelector(".bar5")
+const bar6 = document.querySelector(".bar6")
+
