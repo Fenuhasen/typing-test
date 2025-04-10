@@ -9,27 +9,34 @@
 </head>
 
 <body>
-    <header>
-        <div class="option">
-            <h1>Chakra Challenge</h1>
-            <div>
-                <label for="mode">Select Mode:</label>
-                <select id="mode">
-                    <option value="easy">Easy</option>
-                    <option value="medium">Medium</option>
-                    <option value="hard">Hard</option>
-                </select>
+    <p id="time"></p>
+    <main>
+        <div class="paragraph">
+            <h1><span id="previous"></span><span id="now"></span><span id="next"></span></h1>
+        </div>
+        <div class="result">
+            <div class="stat">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+                <div class="bar4"></div>
+                <div class="bar5"></div>
+                <div class="bar6"></div>
             </div>
+            <div class="score">
+                <div class="circle">
+                    <p>WPM</p>
+                    <div id="wpm"></div>
+                </div>
+                <div class="circle">
+                    <p>ACC</p>
+                    <div id="accuracy"></div>
+                </div>
+            </div>
+            <button class="exit">EXIT</button>
         </div>
         
-    </header>
-
-    <main>
-        <p id="word-display"></p>
-        <input type="text" id="input-field" autofocus>
-        <p id="results">Results : </p>
     </main>
-    <img src="" alt="" class="remarque">
     <script src="script.js"></script>
 </body>
 
